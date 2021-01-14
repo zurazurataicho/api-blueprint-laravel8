@@ -13,3 +13,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/issue', 'App\Http\Controllers\Api\ApiTokenController@issue');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', 'App\Http\Controllers\Api\ApiTokenController@index');
+    // Route::get('/logout', 'App\Http\Controllers\Api\ApiTokenController@logout');
+});
