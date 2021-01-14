@@ -11,4 +11,9 @@ class ApiTokenController extends UserController
     {
         return $this->loginImpl(self::API_TOKEN, $request);
     }
+
+    public function revoke(Request $request)
+    {
+        return "revoke()";
+    }
 }
