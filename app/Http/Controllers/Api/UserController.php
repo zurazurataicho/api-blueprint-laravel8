@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public const SPA_TOKEN = 'api-base-spa-token';
-    public const API_TOKEN = 'api-base-api-token';
+    public const SPA_TOKEN = 'api-blueprint-spa-token';
+    public const API_TOKEN = 'api-blueprint-api-token';
 
     /**
      * Display a listing of the resource.
