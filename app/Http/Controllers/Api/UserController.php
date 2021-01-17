@@ -68,6 +68,11 @@ class UserController extends Controller
         //
     }
 
+    /**
+     * Log in as creating access token
+     *
+     * @return \Illuminate\Http\Response
+     */
     protected function loginImpl(string $tokenType, Request $request)
     {
         $credentials = $request->only(['email', 'password']);
