@@ -14,10 +14,6 @@ class SpaAuthController extends UserController
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
-        return [
-            'status' => 200,
-            'message' => 'logged out',
-        ];
+        return $this->logoutImpl($request);
     }
 }

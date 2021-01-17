@@ -101,4 +101,20 @@ class UserController extends Controller
             ],
         ]);
     }
+
+    /**
+     * Log out as removing access token
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function logoutImpl(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        $response = [
+            'status' => 'success',
+            'login' => false,
+        ];
+        return response()->json($response);
+    }
 }
