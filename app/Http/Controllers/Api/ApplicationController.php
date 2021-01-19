@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class ApplicationController extends Controller
 {
     public const SPA_TOKEN = 'api-blueprint-spa-token';
     public const API_TOKEN = 'api-blueprint-api-token';
@@ -69,16 +69,16 @@ class UserController extends Controller
     }
 
     /**
-     * Log in as creating access token
+     * Issue an access token
      *
      * @return \Illuminate\Http\Response
      */
-    protected function login(Request $request)
+    protected function issue(Request $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['email', 'url']);
         $validator = Validator::make($credentials, [
             'email' => 'required|email',
-            'password' => 'required',
+            'url' => 'required|url',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -87,20 +87,20 @@ class UserController extends Controller
             ]);
         }
 
-        $user = User::where('email', $credentials['email'])
-            ->where('password', $credentials['password'])
+        $application = Application::where('email', $credentials['email'])
+            ->where('url', $credentials['url'])
             ->first();
-        if (is_null($user)) {
+        if (is_null($application)) {
             return response()->json([
                 'status' => 404,
                 'message' => 'invalid credentials',
             ]);
         }
 
-        $token = $user->createToken(self::SPA_TOKEN)->plainTextToken;
+        $token = $application->createToken(self::API_TOKEN)->plainTextToken;
         return response()->json([
             'status' => 200,
-            'message' => 'logged in successfully',
+            'message' => 'success',
             'response' => [
                 'token' => $token,
             ],
@@ -108,11 +108,11 @@ class UserController extends Controller
     }
 
     /**
-     * Log out as removing access token
+     * Revoke an access token
      *
      * @return \Illuminate\Http\Response
      */
-    protected function logout(Request $request)
+    protected function revoke(Request $request)
     {
         $request->user()->tokens()->delete();
 

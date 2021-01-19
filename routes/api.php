@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/issue', 'App\Http\Controllers\Api\ApiTokenController@issue');
+Route::post('/issue', 'App\Http\Controllers\Api\ApplicationController@issue');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', 'App\Http\Controllers\Api\ApiTokenController@index');
-    Route::get('/revoke', 'App\Http\Controllers\Api\ApiTokenController@revoke');
+    Route::get('/user', 'App\Http\Controllers\Api\ApplicationController@index');
+    Route::get('/revoke', 'App\Http\Controllers\Api\ApplicationController@revoke');
 });

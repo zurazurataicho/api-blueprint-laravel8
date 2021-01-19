@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/login', 'App\Http\Controllers\Api\SpaAuthController@login');
+Route::post('/login', 'App\Http\Controllers\Api\UserController@login');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', 'App\Http\Controllers\Api\SpaAuthController@index');
-    Route::get('/logout', 'App\Http\Controllers\Api\SpaAuthController@logout');
+    Route::get('/user', 'App\Http\Controllers\Api\UserController@index');
+    Route::get('/logout', 'App\Http\Controllers\Api\UserController@logout');
 });
