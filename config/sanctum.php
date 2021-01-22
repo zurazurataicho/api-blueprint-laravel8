@@ -32,6 +32,14 @@ return [
     'expiration' => null,
 
     /*
+    | Whether going to be logged out or not when a token is expired on the
+    | SPA authentication (when usage 'web' route).
+    |
+    */
+    'spa_auth_token_expired' => true,
+    'spa_expiration' => 120,
+
+    /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware
     |--------------------------------------------------------------------------
