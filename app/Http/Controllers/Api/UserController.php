@@ -7,12 +7,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
 class UserController extends Controller
 {
-    public const SPA_TOKEN = 'api-blueprint-spa-token';
-    public const API_TOKEN = 'api-blueprint-api-token';
-
     /**
      * Display a listing of the resource.
      *
@@ -97,7 +95,7 @@ class UserController extends Controller
             ]);
         }
 
-        $token = $user->createToken(self::SPA_TOKEN)->plainTextToken;
+        $token = $user->createToken(SanctumPersonalAccessToken::SPA_TOKEN)->plainTextToken;
         return response()->json([
             'status' => 200,
             'message' => 'logged in successfully',

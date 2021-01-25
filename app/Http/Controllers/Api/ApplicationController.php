@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
 {
-    public const SPA_TOKEN = 'api-blueprint-spa-token';
-    public const API_TOKEN = 'api-blueprint-api-token';
-
     /**
      * Display a listing of the resource.
      *

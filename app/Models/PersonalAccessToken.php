@@ -9,6 +9,9 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
 {
     use HasFactory;
 
+    public const SPA_TOKEN = 'api-blueprint-spa-token';
+    public const API_TOKEN = 'api-blueprint-api-token';
+
     /**
      * Check a token is in expire
      *
