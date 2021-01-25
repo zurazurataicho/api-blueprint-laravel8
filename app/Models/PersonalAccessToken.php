@@ -22,7 +22,7 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
     {
         $accessToken = self::findToken($token);
         if (is_null($accessToken)) {
-            return true;
+            return false;
         }
 
         $spaAuthTokenExpired = config('sanctum.spa_auth_token_expired');
