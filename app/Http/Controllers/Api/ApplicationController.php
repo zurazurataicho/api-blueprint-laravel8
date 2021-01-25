@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Application;
+use App\Models\PersonalAccessToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -94,7 +95,7 @@ class ApplicationController extends Controller
             ]);
         }
 
-        $token = $application->createToken(self::API_TOKEN)->plainTextToken;
+        $token = $application->createToken(PersonalAccessToken::API_TOKEN)->plainTextToken;
         return response()->json([
             'status' => 200,
             'message' => 'success',

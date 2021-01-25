@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\PersonalAccessToken;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
 class UserController extends Controller
 {
@@ -95,7 +95,7 @@ class UserController extends Controller
             ]);
         }
 
-        $token = $user->createToken(SanctumPersonalAccessToken::SPA_TOKEN)->plainTextToken;
+        $token = $user->createToken(PersonalAccessToken::SPA_TOKEN)->plainTextToken;
         return response()->json([
             'status' => 200,
             'message' => 'logged in successfully',
