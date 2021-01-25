@@ -43,4 +43,21 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
 
         return false;
     }
+
+    /**
+     * Check a token name
+     *
+     * @param  string  $token
+     * @param  string  $tokenName
+     * @return bool
+     */
+    public static function isCorrectTokenName(string $token, string $tokenName)
+    {
+        $accessToken = self::findToken($token);
+        if (is_null($accessToken)) {
+            return false;
+        }
+
+        return $accessToken->name === $tokenName;
+    }
 }

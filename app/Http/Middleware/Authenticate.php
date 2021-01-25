@@ -26,6 +26,12 @@ class Authenticate extends Middleware
         }
 
         $isApi = $request->is('api/*');
+        $tokenName = $isApi ? PersonalAccessToken::API_TOKEN : PersonalAccessToken::SPA_TOKEN;
+
+        if (!Sanctum::$personalAccessTokenModel::isCorrectTokenName($token, $tokenName)) {
+            $this->unauthenticated($request, $guards);
+        }
+
         if (!$isApi) {
             if (!Sanctum::$personalAccessTokenModel::tokenExpireIn($token, PersonalAccessToken::SPA_TOKEN)) {
                 $this->unauthenticated($request, $guards);
