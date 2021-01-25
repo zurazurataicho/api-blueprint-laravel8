@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\PersonalAccessToken;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
@@ -20,8 +21,13 @@ class Authenticate extends Middleware
     public function handle(Request $request, Closure $next, ...$guards)
     {
         $token = $request->bearerToken();
-        if ($token && !$request->is('api/*')) {
-            if (!Sanctum::$personalAccessTokenModel::tokenExpireIn($token)) {
+        if (!$token) {
+            $this->unauthenticated($request, $guards);
+        }
+
+        $isApi = $request->is('api/*');
+        if (!$isApi) {
+            if (!Sanctum::$personalAccessTokenModel::tokenExpireIn($token, PersonalAccessToken::SPA_TOKEN)) {
                 $this->unauthenticated($request, $guards);
             }
         }

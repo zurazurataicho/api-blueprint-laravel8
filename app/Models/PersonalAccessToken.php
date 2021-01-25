@@ -16,12 +16,18 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
      * Check a token is in expire
      *
      * @param  string  $token
+     * @param  string  $name
      * @return bool
      */
-    public static function tokenExpireIn(string $token)
+    public static function tokenExpireIn(string $token, string $name = null)
     {
         $accessToken = self::findToken($token);
         if (is_null($accessToken)) {
+            return false;
+        }
+
+        // distinct a token by an access token name (if specified)
+        if (!is_null($name) && $accessToken->name !== $name) {
             return false;
         }
 
