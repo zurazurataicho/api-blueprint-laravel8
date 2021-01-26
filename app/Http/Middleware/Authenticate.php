@@ -27,16 +27,15 @@ class Authenticate extends Middleware
         }
 
         $routeName = $request->route()->getName();
-
-        $isApi = $routeName === RouteServiceProvider::ROUTE_NAME_API;
-        $tokenName = $isApi ? PersonalAccessToken::API_TOKEN : PersonalAccessToken::SPA_TOKEN;
+        $tokenName = PersonalAccessToken::TOKEN_PREFIX . $routeName;
 
         if (!Sanctum::$personalAccessTokenModel::isCorrectTokenName($token, $tokenName)) {
             $this->unauthenticated($request, $guards);
         }
 
+        $isApi = $routeName === RouteServiceProvider::ROUTE_NAME_API;
         if (!$isApi) {
-            if (!Sanctum::$personalAccessTokenModel::tokenExpireIn($token, PersonalAccessToken::SPA_TOKEN)) {
+            if (!Sanctum::$personalAccessTokenModel::tokenExpireIn($token, $tokenName)) {
                 $this->unauthenticated($request, $guards);
             }
         }
