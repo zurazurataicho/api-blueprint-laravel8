@@ -1,4 +1,4 @@
-## WebAPI skelton by Laravel8
+## WebAPI skeleton by Laravel8
 
 ### Implementation
 
