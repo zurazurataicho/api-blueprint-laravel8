@@ -95,7 +95,7 @@ class UserController extends Controller
             ]);
         }
 
-        $token = $user->createToken(PersonalAccessToken::SPA_TOKEN)->plainTextToken;
+        $token = $user->createToken(PersonalAccessToken::TOKEN_USER)->plainTextToken;
         return response()->json([
             'status' => 200,
             'message' => 'logged in successfully',

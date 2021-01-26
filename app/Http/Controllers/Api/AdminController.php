@@ -98,7 +98,7 @@ class AdminController extends Controller
             ]);
         }
 
-        $token = $admin->createToken(PersonalAccessToken::SPA_TOKEN)->plainTextToken;
+        $token = $admin->createToken(PersonalAccessToken::TOKEN_ADMIN)->plainTextToken;
         return response()->json([
             'status' => 200,
             'message' => 'logged in successfully',

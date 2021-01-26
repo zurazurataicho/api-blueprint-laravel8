@@ -95,7 +95,7 @@ class ApplicationController extends Controller
             ]);
         }
 
-        $token = $application->createToken(PersonalAccessToken::API_TOKEN)->plainTextToken;
+        $token = $application->createToken(PersonalAccessToken::TOKEN_API)->plainTextToken;
         return response()->json([
             'status' => 200,
             'message' => 'success',

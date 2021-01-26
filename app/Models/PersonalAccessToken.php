@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
@@ -9,8 +10,10 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
 {
     use HasFactory;
 
-    public const SPA_TOKEN = 'api-blueprint-spa-token';
-    public const API_TOKEN = 'api-blueprint-api-token';
+    public const TOKEN_PREFIX = 'api-blueprint-token-';
+    public const TOKEN_ADMIN = self::TOKEN_PREFIX . RouteServiceProvider::ROUTE_NAME_ADMIN;
+    public const TOKEN_USER = self::TOKEN_PREFIX . RouteServiceProvider::ROUTE_NAME_USER;
+    public const TOKEN_API = self::TOKEN_PREFIX . RouteServiceProvider::ROUTE_NAME_API;
 
     /**
      * Check a token is in expire
