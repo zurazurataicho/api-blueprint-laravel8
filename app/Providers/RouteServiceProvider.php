@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    public const ROUTE_NAME_ADMIN = 'admin';
-    public const ROUTE_NAME_API = 'api';
-    public const ROUTE_NAME_USER = 'user';
+    public const ROUTE_NAME_ADMIN = 'Admin';
+    public const ROUTE_NAME_API = 'Api';
+    public const ROUTE_NAME_USER = 'User';
 
     /**
      * The path to the "home" route for your application.
