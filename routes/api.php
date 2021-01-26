@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/issue', 'App\Http\Controllers\Api\ApplicationController@issue');
+Route::prefix('')->name(RouteServiceProvider::ROUTE_NAME_API)->group(function () {
+    Route::post('/issue', 'App\Http\Controllers\Api\ApplicationController@issue');
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', 'App\Http\Controllers\Api\ApplicationController@index');
-    Route::get('/revoke', 'App\Http\Controllers\Api\ApplicationController@revoke');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user', 'App\Http\Controllers\Api\ApplicationController@index');
+        Route::get('/revoke', 'App\Http\Controllers\Api\ApplicationController@revoke');
+    });
 });

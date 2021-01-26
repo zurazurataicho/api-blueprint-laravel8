@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\PersonalAccessToken;
+use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
@@ -25,7 +26,9 @@ class Authenticate extends Middleware
             $this->unauthenticated($request, $guards);
         }
 
-        $isApi = $request->is('api/*');
+        $routeName = $request->route()->getName();
+
+        $isApi = $routeName === RouteServiceProvider::ROUTE_NAME_API;
         $tokenName = $isApi ? PersonalAccessToken::API_TOKEN : PersonalAccessToken::SPA_TOKEN;
 
         if (!Sanctum::$personalAccessTokenModel::isCorrectTokenName($token, $tokenName)) {

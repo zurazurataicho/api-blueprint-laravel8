@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/login', 'App\Http\Controllers\Api\UserController@login');
+Route::prefix('')->name(RouteServiceProvider::ROUTE_NAME_USER)->group(function () {
+    Route::post('/login', 'App\Http\Controllers\Api\UserController@login');
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', 'App\Http\Controllers\Api\UserController@index');
-    Route::get('/logout', 'App\Http\Controllers\Api\UserController@logout');
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user', 'App\Http\Controllers\Api\UserController@index');
+        Route::get('/logout', 'App\Http\Controllers\Api\UserController@logout');
+    });
 });
