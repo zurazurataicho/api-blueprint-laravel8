@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    public const ROUTE_NAME_ADMIN = 'admin';
     public const ROUTE_NAME_API = 'api';
     public const ROUTE_NAME_USER = 'user';
 
