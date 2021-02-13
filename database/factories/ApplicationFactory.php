@@ -26,7 +26,7 @@ class ApplicationFactory extends Factory
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'url' => $this->faker->unique()->url,
+            'url' => $this->faker->unique()->url
         ];
     }
 }
