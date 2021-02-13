@@ -18,7 +18,7 @@ services:
   #     networks:
   #         - sail
   #     depends_on:
-  #         - mysql
+  #         - mariadb
   #         - redis
   #         # - selenium
   # # selenium:
@@ -29,20 +29,20 @@ services:
   # #         - sail
   # #     depends_on:
   # #         - laravel.test
-  # mysql:
-  #     image: 'mysql:8.0'
-  #     ports:
-  #         - '${FORWARD_DB_PORT:-3306}:3306'
-  #     environment:
-  #         MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-  #         MYSQL_DATABASE: '${DB_DATABASE}'
-  #         MYSQL_USER: '${DB_USERNAME}'
-  #         MYSQL_PASSWORD: '${DB_PASSWORD}'
-  #         MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-  #     volumes:
-  #         - 'sailmysql:/var/lib/mysql'
-  #     networks:
-  #         - sail
+  mariadb:
+    image: "mariadb:latest"
+    ports:
+      - "${FORWARD_DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - "sailmariadb:/var/lib/mysql"
+    networks:
+      - sail
   redis:
     image: "redis:alpine"
     ports:
@@ -68,7 +68,7 @@ networks:
   sail:
     driver: bridge
 volumes:
-  # sailmysql:
-  #   driver: local
+  sailmariadb:
+    driver: local
   sailredis:
     driver: local
