@@ -79,20 +79,20 @@ class UserController extends Controller
             'password' => 'required',
         ]);
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 404,
-                'message' => $validator->errors(),
-            ]);
+            return response([
+                'status' => 401,
+                'message' => 'required credentials'
+            ], 401);
         }
 
         $user = User::where('email', $credentials['email'])
             ->where('password', $credentials['password'])
             ->first();
         if (is_null($user)) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'invalid credentials',
-            ]);
+            return response([
+                'status' => 401,
+                'message' => 'required credentials'
+            ], 401);
         }
 
         $token = $user->createToken(PersonalAccessToken::TOKEN_USER)->plainTextToken;
