@@ -85,7 +85,6 @@ class UserTest extends TestCase
 
     public function test_spa_get_user_list()
     {
-        echo 'Bearer token = ' . $this->bearerToken . "\n";
         $response = $this->withHeaders(['Authorization' => $this->bearerToken])->getJson('/user');
         $response->assertOk();
     }
