@@ -73,6 +73,23 @@ class UserTest extends TestCase
     }
 
     /**
+     * Logout test
+     *
+     * @return void
+     */
+    public function test_logout_no_credentials()
+    {
+        $response = $this->getJson('/logout');
+        $response->assertUnauthorized();
+    }
+
+    public function test_logout()
+    {
+        $response = $this->withHeaders(['Authorization' => $this->bearerToken])->getJson('/logout');
+        $response->assertOk();
+    }
+
+    /**
      * Get user list
      *
      * @return void
