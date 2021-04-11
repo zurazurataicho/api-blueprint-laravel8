@@ -43,7 +43,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_welcome()
+    public function testWelcome()
     {
         $response = $this->get('/');
 
@@ -55,14 +55,14 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_login_no_credentials()
+    public function testApiLoginNoCredentials()
     {
         $credentials = [];
         $response = $this->postJson('/login', $credentials);
         $response->assertUnauthorized();
     }
 
-    public function test_login_empty_credentials()
+    public function testApiLoginEmptyCredentials()
     {
         $credentials = [
             'email' => '',
@@ -77,13 +77,13 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_logout_no_credentials()
+    public function testApiLogoutNoCredentials()
     {
         $response = $this->getJson('/logout');
         $response->assertUnauthorized();
     }
 
-    public function test_logout()
+    public function testApiLogout()
     {
         $response = $this->withHeaders(['Authorization' => $this->bearerToken])->getJson('/logout');
         $response->assertOk();
@@ -94,13 +94,13 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_spa_get_user_list_without_auth()
+    public function testSpaGetUserListWithoutAuth()
     {
         $response = $this->getJson('/user');
         $response->assertUnauthorized();
     }
 
-    public function test_spa_get_user_list()
+    public function testSpaGetUserList()
     {
         $response = $this->withHeaders(['Authorization' => $this->bearerToken])->getJson('/user');
         $response->assertOk();
