@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\PersonalAccessToken;
-use App\Models\User;
+use App\Services\UserAccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -18,6 +18,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        echo "=====";
+        print_r($request->bearerToken());
+        echo "=====";
         return $request->user();
     }
 
@@ -71,24 +74,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected function login(Request $request)
+    protected function login(Request $request, UserAccountService $userAccountService)
     {
-        $credentials = $request->only(['email', 'password']);
-        $validator = Validator::make($credentials, [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return response([
-                'status' => 401,
-                'message' => 'required credentials'
-            ], 401);
-        }
-
-        $user = User::where('email', $credentials['email'])
-            ->where('password', $credentials['password'])
-            ->first();
-        if (is_null($user)) {
+        $user = $userAccountService->findUser();
+        if ($user === false) {
             return response([
                 'status' => 401,
                 'message' => 'required credentials'

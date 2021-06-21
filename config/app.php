@@ -178,6 +178,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Original Service Providers...
+         */
+        App\Providers\AccountServiceProvider::class,
     ],
 
     /*
