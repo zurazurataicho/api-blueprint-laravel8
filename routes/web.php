@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AdminController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
@@ -20,20 +22,22 @@ Route::get('/', function () {
 
 // For accessing users
 Route::prefix('')->name(RouteServiceProvider::ROUTE_NAME_USER)->group(function () {
-    Route::post('/login', 'App\Http\Controllers\Api\UserController@login');
+    // Login a user
+    Route::post('/login', [UserController::class, 'login']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/user', 'App\Http\Controllers\Api\UserController@index');
-        Route::get('/logout', 'App\Http\Controllers\Api\UserController@logout');
+        Route::get('/user', [UserController::class, 'index']);
+        Route::get('/logout', [UserController::class, 'logout']);
     });
 });
 
 // For accessing admins
 Route::prefix('admin')->name(RouteServiceProvider::ROUTE_NAME_ADMIN)->group(function () {
-    Route::post('/login', 'App\Http\Controllers\Api\AdminController@login');
+    // Login an administrator
+    Route::post('/login', [AdminController::class, 'login']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::get('/user', 'App\Http\Controllers\Api\AdminController@index');
-        Route::get('/logout', 'App\Http\Controllers\Api\AdminController@logout');
+        Route::get('/user', [AdminController::class, 'index']);
+        Route::get('/logout', [AdminController::class, 'logout']);
     });
 });
