@@ -18,10 +18,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        echo "=====";
-        print_r($request->bearerToken());
-        echo "=====";
-        return $request->user();
+        //
     }
 
     /**
