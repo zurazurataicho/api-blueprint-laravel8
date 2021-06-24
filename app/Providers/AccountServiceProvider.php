@@ -12,7 +12,9 @@ use Illuminate\Support\ServiceProvider;
 class AccountServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     public $bindings = [
-        AccountRepository::class => UserAccountRepository::class,
+        UserAccountRepository::class => UserAccountRepository::class,
+        ApplicationAccountRepository::class => ApplicationAccountRepository::class,
+        AdminAccountRepository::class => AdminAccountRepository::class,
     ];
 
     /**
@@ -24,6 +26,12 @@ class AccountServiceProvider extends ServiceProvider implements DeferrableProvid
     {
         $this->app->bind(UserAccountService::class, function ($app) {
             return new UserAccountService($app->make(Request::class));
+        });
+        $this->app->bind(ApplicationAccountService::class, function ($app) {
+            return new ApplicationAccountService($app->make(Request::class));
+        });
+        $this->app->bind(AdminAccountService::class, function ($app) {
+            return new AdminAccountService($app->make(Request::class));
         });
     }
 
@@ -37,6 +45,10 @@ class AccountServiceProvider extends ServiceProvider implements DeferrableProvid
         return [
             UserAccountService::class,
             UserAccountRepository::class,
+            ApplicationAccountService::class,
+            ApplicationAccountRepository::class,
+            AdminAccountService::class,
+            AdminAccountRepository::class,
         ];
     }
 }
