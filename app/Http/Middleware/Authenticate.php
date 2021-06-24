@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Facades\Log;
 
 class Authenticate extends Middleware
 {
@@ -19,7 +20,7 @@ class Authenticate extends Middleware
      * @param  string[]  ...$guards
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle($request, Closure $next, ...$guards)
     {
         $token = $request->bearerToken();
         if (!$token) {
