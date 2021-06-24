@@ -3,14 +3,14 @@
 namespace App\Services;
 
 use App\Contracts\Services\AccountService;
-use App\Models\User;
-use App\Repositories\UserAccountRepository;
+use App\Models\Admin;
+use App\Repositories\AdminAccountRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-class UserAccountService implements AccountService
+class AdminAccountService implements AccountService
 {
     /** @var Request */
     private $request;
@@ -31,7 +31,7 @@ class UserAccountService implements AccountService
             return null;
         }
 
-        $foundUser = app()->makeWith(UserAccountRepository::class, ['credentials' => $credentials])->find();
-        return $foundUser ?? null;
+        $foundAdmin = app()->makeWith(AdminAccountRepository::class, ['credentials' => $credentials])->find();
+        return $foundAdmin ?? null;
     }
 }

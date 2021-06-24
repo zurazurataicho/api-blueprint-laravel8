@@ -3,14 +3,14 @@
 namespace App\Services;
 
 use App\Contracts\Services\AccountService;
-use App\Models\User;
-use App\Repositories\UserAccountRepository;
+use App\Models\Application;
+use App\Repositories\ApplicationAccountRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
-class UserAccountService implements AccountService
+class ApplicationAccountService implements AccountService
 {
     /** @var Request */
     private $request;
@@ -22,16 +22,16 @@ class UserAccountService implements AccountService
 
     public function find()
     {
-        $credentials = $this->request->only(['email', 'password']);
+        $credentials = $this->request->only(['email', 'url']);
         $validator = Validator::make($credentials, [
             'email' => 'required|email',
-            'password' => 'required',
+            'url' => 'required|url',
         ]);
         if ($validator->fails()) {
             return null;
         }
 
-        $foundUser = app()->makeWith(UserAccountRepository::class, ['credentials' => $credentials])->find();
-        return $foundUser ?? null;
+        $foundApplication = app()->makeWith(ApplicationAccountRepository::class, ['credentials' => $credentials])->find();
+        return $foundApplication ?? null;
     }
 }
