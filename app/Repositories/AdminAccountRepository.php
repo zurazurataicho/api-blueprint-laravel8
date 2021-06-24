@@ -3,11 +3,11 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\AccountRepository;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class UserAccountRepository implements AccountRepository
+class AdminAccountRepository implements AccountRepository
 {
     private $credentials;
 
@@ -16,9 +16,9 @@ class UserAccountRepository implements AccountRepository
         $this->credentials = $credentials;
     }
 
-    public function find(): ?User
+    public function find(): ?Admin
     {
-        return User::where('email', $this->credentials['email'])
+        return Admin::where('email', $this->credentials['email'])
             ->where('password', $this->credentials['password'])
             ->first();
     }

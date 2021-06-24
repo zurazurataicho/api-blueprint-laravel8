@@ -3,11 +3,11 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\AccountRepository;
-use App\Models\User;
+use App\Models\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-class UserAccountRepository implements AccountRepository
+class ApplicationAccountRepository implements AccountRepository
 {
     private $credentials;
 
@@ -16,10 +16,10 @@ class UserAccountRepository implements AccountRepository
         $this->credentials = $credentials;
     }
 
-    public function find(): ?User
+    public function find(): ?Application
     {
-        return User::where('email', $this->credentials['email'])
-            ->where('password', $this->credentials['password'])
+        return Application::where('email', $this->credentials['email'])
+            ->where('url', $this->credentials['url'])
             ->first();
     }
 }
