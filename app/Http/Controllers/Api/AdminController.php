@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\AdminAccountService;
 use App\Models\Admin;
 use App\Models\PersonalAccessToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -18,10 +20,7 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json([
-            'status' => 200,
-            'message' => 'admin index OK',
-        ]);
+        return $request->user();
     }
 
     /**
@@ -74,38 +73,25 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected function login(Request $request)
+    protected function login(Request $request, AdminAccountService $adminAccountService)
     {
-        $credentials = $request->only(['email', 'password']);
-        $validator = Validator::make($credentials, [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 404,
-                'message' => $validator->errors(),
-            ]);
-        }
-
-        $admin = Admin::where('email', $credentials['email'])
-            ->where('password', $credentials['password'])
-            ->first();
+        $admin = $adminAccountService->find();
         if (is_null($admin)) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'invalid credentials',
-            ]);
+            return response([
+                'status' => 401,
+                'message' => 'required credentials'
+            ], 401);
         }
 
         $token = $admin->createToken(PersonalAccessToken::TOKEN_ADMIN)->plainTextToken;
-        return response()->json([
+        $response = [
             'status' => 200,
             'message' => 'logged in successfully',
             'response' => [
                 'token' => $token,
             ],
-        ]);
+        ];
+        return response()->json($response);
     }
 
     /**
@@ -118,8 +104,8 @@ class AdminController extends Controller
         $request->user()->tokens()->delete();
 
         $response = [
-            'status' => 'success',
-            'login' => false,
+            'status' => 204,
+            'message' => 'logged out successfully',
         ];
         return response()->json($response);
     }

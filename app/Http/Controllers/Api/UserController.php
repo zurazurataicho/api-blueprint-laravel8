@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        //
+        return $request->user();
     }
 
     /**
@@ -73,8 +73,8 @@ class UserController extends Controller
      */
     protected function login(Request $request, UserAccountService $userAccountService)
     {
-        $user = $userAccountService->findUser();
-        if ($user === false) {
+        $user = $userAccountService->find();
+        if (is_null($user)) {
             return response([
                 'status' => 401,
                 'message' => 'required credentials'
@@ -82,13 +82,14 @@ class UserController extends Controller
         }
 
         $token = $user->createToken(PersonalAccessToken::TOKEN_USER)->plainTextToken;
-        return response()->json([
+        $response = [
             'status' => 200,
             'message' => 'logged in successfully',
             'response' => [
                 'token' => $token,
             ],
-        ]);
+        ];
+        return response()->json($response);
     }
 
     /**
@@ -101,8 +102,8 @@ class UserController extends Controller
         $request->user()->tokens()->delete();
 
         $response = [
-            'status' => 'success',
-            'login' => false,
+            'status' => 204,
+            'message' => 'logged out successfully',
         ];
         return response()->json($response);
     }

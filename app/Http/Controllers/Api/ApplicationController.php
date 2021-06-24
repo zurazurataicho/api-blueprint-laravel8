@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Application;
 use App\Models\PersonalAccessToken;
+use App\Services\ApplicationAccountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
@@ -71,28 +73,14 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected function issue(Request $request)
+    protected function issue(Request $request, ApplicationAccountService $applicationAccountService)
     {
-        $credentials = $request->only(['email', 'url']);
-        $validator = Validator::make($credentials, [
-            'email' => 'required|email',
-            'url' => 'required|url',
-        ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 404,
-                'message' => $validator->errors(),
-            ]);
-        }
-
-        $application = Application::where('email', $credentials['email'])
-            ->where('url', $credentials['url'])
-            ->first();
+        $application = $applicationAccountService->find();
         if (is_null($application)) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'invalid credentials',
-            ]);
+            return response([
+                'status' => 401,
+                'message' => 'required credentials'
+            ], 401);
         }
 
         $token = $application->createToken(PersonalAccessToken::TOKEN_API)->plainTextToken;
@@ -115,8 +103,8 @@ class ApplicationController extends Controller
         $request->user()->tokens()->delete();
 
         $response = [
-            'status' => 'success',
-            'login' => false,
+            'status' => 204,
+            'message' => 'revoke successfully',
         ];
         return response()->json($response);
     }
